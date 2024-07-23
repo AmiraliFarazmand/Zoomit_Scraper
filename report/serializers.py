@@ -2,13 +2,20 @@ from rest_framework import serializers
 from report.models import Report, Tag
 
 
-
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = "__all__"
+        
+        
 class ReportSerializer(serializers.ModelSerializer):
-    tags = serializers.SerializerMethodField(method_name="get_tags",)
-    # tags = TagSerializer(many=True)
+    tags = serializers.SlugRelatedField(
+        many=True,
+        queryset=Tag.objects.all(),
+        slug_field='name'
+    )
+
     class Meta:
         model = Report
-        fields = ("title", "article", "refrence", "tags",)
-    def get_tags(self, obj):
-        tags = obj.report_tags.all()
-        
+        fields = ("title", "article", "refrence", "tags")
+
