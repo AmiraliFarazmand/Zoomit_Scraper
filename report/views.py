@@ -7,6 +7,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from report.serializers import *
 from report.models import Report, Tag
+from report.filters import ReportFilter
 # Create your views here.
 
 class ReportsListView(ListCreateAPIView):
@@ -15,6 +16,7 @@ class ReportsListView(ListCreateAPIView):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter, )
     ordering_fields = ("title",)
     search_fields = ("title", "article",)
+    # filterset_class = ReportFilter
     
 class ReportView(RetrieveAPIView):
     serializer_class = ReportSerializer
