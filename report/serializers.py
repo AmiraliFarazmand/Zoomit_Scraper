@@ -19,3 +19,9 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ("title", "article", "refrence", "tags")
 
+class TagsReportSerializer(serializers.ModelSerializer):
+    reports = ReportSerializer(many=True)
+    class Meta:
+        model = Tag
+        fields = ("name", "reports")
+

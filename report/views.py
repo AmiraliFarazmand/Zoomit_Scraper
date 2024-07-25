@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.viewsets import ModelViewSet
@@ -9,10 +9,6 @@ from report.serializers import *
 from report.models import Report, Tag
 # Create your views here.
 
-# class ReportsListView(ListAPIView):
-#     serializer_class = ReportSerializer
-#     queryset = Report.objects.all()
-
 class ReportsListView(ListCreateAPIView):
     serializer_class = ReportSerializer
     queryset = Report.objects.all()
@@ -20,7 +16,15 @@ class ReportsListView(ListCreateAPIView):
     ordering_fields = ("title",)
     search_fields = ("title", "article",)
     
-
-class TagCreateView(ListCreateAPIView):
+class ReportView(RetrieveAPIView):
+    serializer_class = ReportSerializer
+    queryset = Report.objects.all()
+    
+class TagListCreateView(ListCreateAPIView):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
+    
+class TagReportsView(RetrieveAPIView):
+    serializer_class = TagsReportSerializer
+    queryset = Tag.objects.all()
+    lookup_field = "name"
