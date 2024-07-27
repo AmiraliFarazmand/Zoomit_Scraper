@@ -6,5 +6,6 @@ urlpatterns = [
     path("<int:pk>/",views.ReportView.as_view(), name="report-detail"),
     path("tags/", views.TagListCreateView.as_view(), name = "all-tags"),
     path("tags/<str:name>/", views.TagReportsView.as_view(), name="tag-reports"),
+    path('insert/', views.InsertDataView, name='insert-data'),
     
 ]

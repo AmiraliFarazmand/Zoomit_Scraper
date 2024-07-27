@@ -1,12 +1,14 @@
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveAPIView
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http.response import HttpResponse
 
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from report.serializers import *
 from report.models import Report, Tag
+from report.webscrapper import add_single_post, extract_some_page
 # Create your views here.
 
 class ReportsListView(ListCreateAPIView):
@@ -28,3 +30,11 @@ class TagReportsView(RetrieveAPIView):
     serializer_class = TagsReportSerializer
     queryset = Tag.objects.all()
     lookup_field = "name"
+    
+def InsertDataView(request):
+    name = "new4"
+    link = "gg.cc"
+    tags = ["mobile", "new-tag"]
+    article = "lorem ..........................................."
+    add_single_post(name, tags, link, article)
+    return HttpResponse('DONE')
