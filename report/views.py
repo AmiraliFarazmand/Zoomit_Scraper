@@ -32,10 +32,5 @@ class TagReportsView(RetrieveAPIView):
     lookup_field = "name"
     
 def InsertDataView(request):
-    # name = "new4"
-    # link = "gg.cc"
-    # tags = ["mobile", "new-tag"]
-    # article = "lorem ..........................................."
-    # add_single_post(name, tags, link, article)
-    extract_some_page(1,5)
+    extract_some_page(1,3)
     return HttpResponse('DONE!!!')
