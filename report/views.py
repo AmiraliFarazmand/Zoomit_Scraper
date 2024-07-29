@@ -12,11 +12,11 @@ from report.webscrapper import add_single_post, extract_some_page
 # Create your views here.
 
 class ReportsListView(ListCreateAPIView):
-    serializer_class = ReportSerializer
-    queryset = Report.objects.all()
+    serializer_class = ReportListSerializer
+    queryset = Report.objects.all().order_by("-id")
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter, )
-    ordering_fields = ("title",)
-    search_fields = ("title", "article",)
+    # ordering_fields = ("title", "id")
+    search_fields = ("title", "article")
     
 class ReportView(RetrieveAPIView):
     serializer_class = ReportSerializer
@@ -37,5 +37,5 @@ def InsertDataView(request):
     # tags = ["mobile", "new-tag"]
     # article = "lorem ..........................................."
     # add_single_post(name, tags, link, article)
-    extract_some_page(10)
-    return HttpResponse('DONE WITH PAGE #1')
+    extract_some_page(1,5)
+    return HttpResponse('DONE!!!')
