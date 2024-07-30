@@ -17,7 +17,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ("title", "article", "refrence", "tags")
+        fields = ("title", "article", "refrence", "tags", "published_date")
 
 class ReportListSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(
@@ -27,7 +27,7 @@ class ReportListSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Report
-        fields = ("id", "title", "refrence", "tags")
+        fields = ("id", "title", "refrence", "tags", "published_date")
     
 class TagsReportSerializer(serializers.ModelSerializer):
     reports = ReportSerializer(many=True)

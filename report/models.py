@@ -13,6 +13,7 @@ class Report(models.Model):
     article = models.TextField(max_length=4096, null=True,)    
     refrence = models.CharField(max_length=512, null=True, )
     tags = models.ManyToManyField(Tag, related_name="reports")
+    published_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     def __str__(self) -> str:
         return self.title
 

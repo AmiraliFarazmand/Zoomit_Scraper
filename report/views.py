@@ -13,9 +13,9 @@ from report.webscrapper import add_single_post, extract_some_page
 
 class ReportsListView(ListCreateAPIView):
     serializer_class = ReportListSerializer
-    queryset = Report.objects.all().order_by("-id")
+    queryset = Report.objects.all().order_by("-published_date")
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter, )
-    # ordering_fields = ("title", "id")
+    ordering_fields = ("title", "published_date")
     search_fields = ("title", "article")
     
 class ReportView(RetrieveAPIView):
@@ -32,5 +32,5 @@ class TagReportsView(RetrieveAPIView):
     lookup_field = "name"
     
 def InsertDataView(request):
-    extract_some_page(1,3)
+    extract_some_page(1,10)
     return HttpResponse('DONE!!!')
