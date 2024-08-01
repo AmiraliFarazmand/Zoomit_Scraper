@@ -89,3 +89,24 @@ def extract_some_page(from_page:int, to_page:int):
     #     add_single_post(title, tags, link, article_text)                            
 
     print("ENDED!!!!")
+    
+
+def extract_first_page():
+    wd = webdriver.Edge(keep_alive=True)
+    wd.maximize_window()
+    all_links =[]
+    
+    try:
+        url = "https://www.zoomit.ir/archive/?sort=Newest&publishPeriod=All&readingTimeRange=All&pageNumber=1"
+        wd.get(url)
+        wd.implicitly_wait(5.56)
+        post_links = wd.find_elements(By.XPATH, "//a[contains(@class, 'BrowseArticleListItemDesktop__WrapperLink')]")
+        links = [link.get_attribute('href') for link in post_links]
+        all_links.extend(links)
+        all_links = list(reversed(all_links))
+    finally:
+        wd.quit()
+
+    with ThreadPoolExecutor(max_workers=5) as executor:  # Adjust max_workers as needed
+        executor.map(process_link, all_links)
+    print("ENDED!!!!")

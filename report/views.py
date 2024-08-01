@@ -8,7 +8,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from report.serializers import *
 from report.models import Report, Tag
-from report.webscrapper import add_single_post, extract_some_page
+from report.webscrapper import add_single_post, extract_some_page, extract_first_page
 # Create your views here.
 
 class ReportsListView(ListCreateAPIView):
@@ -32,5 +32,6 @@ class TagReportsView(RetrieveAPIView):
     lookup_field = "name"
     
 def InsertDataView(request):
-    extract_some_page(1,10)
+    # extract_some_page(1,10)
+    extract_first_page()
     return HttpResponse('DONE!!!')
