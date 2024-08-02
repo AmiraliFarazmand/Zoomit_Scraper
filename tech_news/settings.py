@@ -139,11 +139,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery configs:
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # Un-comment this if you need result backend
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis6379/0")  # Un-comment this if you need result backend
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC'
 # CELERY_BEAT_SCHEDULE = {
 #     'my_periodic_task': {
 #         'task': 'report.tasks.my_periodic_task',
