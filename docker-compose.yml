@@ -1,69 +1,17 @@
-# version: '3.8'
-
-# services:
-#   web:
-#     build: .
-#     command: python manage.py runserver 0.0.0.0:8000
-#     volumes:
-#       - .:/code
-#     ports:
-#       - "8000:8000"
-#     depends_on:
-#       - redis
-#       - celery
-#       - celery-beat
-
-#   redis:
-#     image: redis:alpine
-
-#   celery:
-#     build: .
-#     command: celery -A tech_news worker --loglevel=info
-#     volumes:
-#       - .:/code
-#     depends_on:
-#       - redis
-
-#   celery-beat:
-#     build: .
-#     command: celery -A tech_news beat --loglevel=info
-#     volumes:
-#       - .:/code
-#     depends_on:
-#       - redis
 version: '3.8'
+
 services:
-  web:
-    build:
+  django:
+    container_name: django
+    build: 
       context: .
-      dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - ./tech_news:/usr/src/app/tech_news
+      - ./report:/usr/src/app/report
     ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-
-  celery:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: celery -A tech_news worker --loglevel=info
-    volumes:
-      - .:/app
-    depends_on:
-      - redis
-
-  celery-beat:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: celery -A tech_news beat --loglevel=info
-    volumes:
-      - .:/app
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:7.4.0
+      - 8001:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=sjdfiojsdofjijiodsjfioajfio23ojio
+      - ALLOWED_HOSTS=localhost,127.0.0.1
