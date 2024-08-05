@@ -25,6 +25,18 @@ def add_single_post(title:str, input_tags:list, link:str, article:str, date_str:
         #     pass
         Tag.objects.get_or_create(pk=tag_name)
         new_post.tags.add(Tag.objects.get(pk=tag_name)) # Can be modified!!!!!!!!!!!!!!!!!!!!!
+    json_data = {
+        "title": title,
+        "tags": input_tags,
+        "refrence": link,
+        "article": article,
+        "published_date": date_str,
+    }
+    try:
+        response = requests.post("https://amiralifzd.pythonanywhere.com/", json=json_data)
+        response.raise_for_status()  # Check if the request was successful
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send data: {e}")    
 
 
 def process_link(link):
