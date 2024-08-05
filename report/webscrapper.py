@@ -4,6 +4,9 @@ import requests
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 # from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -77,25 +80,23 @@ def extract_some_page(from_page:int, to_page:int):
 
     with ThreadPoolExecutor(max_workers=5) as executor:  # Adjust max_workers as needed
         executor.map(process_link, all_links)
-    # print(*all_links,sep='\n**********\n')
-    # results = []
-    # with ThreadPoolExecutor(max_workers=5) as executor:
-    #     futures = {executor.submit(process_link, link): link for link in all_links}
-    #     for future in as_completed(futures):
-    #         result = future.result()
-    #         if result:
-    #             results.append(result)
-    # for title, tags, link, article_text in results:
-    #     add_single_post(title, tags, link, article_text)                            
-
     print("ENDED!!!!")
     
 
 def extract_first_page():
-    wd = webdriver.Edge(keep_alive=True)
-    wd.maximize_window()
+    # wd = webdriver.Edge(keep_alive=True)
+    # wd.maximize_window()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Optional, if you want to run headless
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    # hub_url = "http://localhost:4444/wd/hub"
+    hub_url = "http://selenium-hub:4444/wd/hub"
+    wd = webdriver.Remote(
+    command_executor=hub_url,
+    options=chrome_options
+    )
     all_links =[]
-    
     try:
         url = "https://www.zoomit.ir/archive/?sort=Newest&publishPeriod=All&readingTimeRange=All&pageNumber=1"
         wd.get(url)
