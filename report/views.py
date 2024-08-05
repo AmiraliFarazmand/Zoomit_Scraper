@@ -32,6 +32,6 @@ class TagReportsView(RetrieveAPIView):
     lookup_field = "name"
     
 def InsertDataView(request):
-    # extract_some_page(1,10)
-    extract_first_page()
+    extract_some_page(1,5)
+    # extract_first_page()
     return HttpResponse('DONE!!!')

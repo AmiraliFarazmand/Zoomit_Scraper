@@ -1,9 +1,8 @@
 from celery import shared_task
-
+from .webscrapper import extract_first_page
 
 @shared_task
-def insert_data_periodically():
-    # extract_some_page(1,10)
-    # extract_first_page()
-    # print("hi")
-    return 
+def extract_first_page_task():
+    print("######## Running periodic task ##########")
+    # return
+    extract_first_page()

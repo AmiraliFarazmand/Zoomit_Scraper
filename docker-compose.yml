@@ -34,6 +34,7 @@ services:
     volumes:
       - ./tech_news:/usr/src/app/tech_news
       - ./report:/usr/src/app/report
+      - ./db.sqlite3:/usr/src/app/db.sqlite3    
     ports:
       - 8001:8000
     environment:
@@ -49,11 +50,24 @@ services:
       context: .
     command: celery --app=tech_news worker -l INFO
     volumes:
-      - ./tech_news:/usr/src/app/tech_news
-      - ./report:/usr/src/app/report
+      - ./db.sqlite3:/usr/src/app/db.sqlite3    
+    #   - ./tech_news:/usr/src/app/tech_news
+    #   - ./report:/usr/src/app/report
     environment:
       - DEBUG=1
       - SECRET_KEY=sjdfiojsdofjijiodsjfioajfio23ojio
       - ALLOWED_HOSTS=localhost,127.0.0.1
     depends_on:
       - redis
+
+  celery-beat:
+    container_name: celery-beat
+    build:
+      context: .
+    command: celery -A tech_news beat -l info
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=sjdfiojsdofjijiodsjfioajfio23ojio
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    depends_on:
+      - redis      

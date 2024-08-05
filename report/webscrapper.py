@@ -62,8 +62,19 @@ def process_link(link):
 
 
 def extract_some_page(from_page:int, to_page:int):
-    wd = webdriver.Edge(keep_alive=True)
-    wd.maximize_window()
+    # wd = webdriver.Edge(keep_alive=True)
+    # wd.maximize_window()
+    
+    chrome_options = Options()
+    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    # hub_url = "http://localhost:4444/wd/hub"
+    hub_url = "http://selenium-hub:4444/wd/hub"
+    wd = webdriver.Remote(
+    command_executor=hub_url,
+    options=chrome_options
+    )
     all_links =[]
     
     try:
@@ -78,7 +89,7 @@ def extract_some_page(from_page:int, to_page:int):
     finally:
         wd.quit()
 
-    with ThreadPoolExecutor(max_workers=5) as executor:  # Adjust max_workers as needed
+    with ThreadPoolExecutor(max_workers=5) as executor: 
         executor.map(process_link, all_links)
     print("ENDED!!!!")
     
@@ -87,7 +98,7 @@ def extract_first_page():
     # wd = webdriver.Edge(keep_alive=True)
     # wd.maximize_window()
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Optional, if you want to run headless
+    chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     # hub_url = "http://localhost:4444/wd/hub"
@@ -110,4 +121,4 @@ def extract_first_page():
 
     with ThreadPoolExecutor(max_workers=5) as executor:  # Adjust max_workers as needed
         executor.map(process_link, all_links)
-    print("ENDED!!!!")
+    print("extract_first_page done!!!!")

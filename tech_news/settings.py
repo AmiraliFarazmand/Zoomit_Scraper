@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # "django_filters",
-    
+
+    'django_celery_beat',    
     "rest_framework",
     
     "report",
@@ -141,14 +141,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery configs:
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
+# CELERY_BROKER_URL = 'redis://redis:6379/0'  # Redis as a broker
+# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # Redis as the result backend
 
 # CELERY_ACCEPT_CONTENT = ['json']
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'UTC'
-# CELERY_BEAT_SCHEDULE = {
-#     'my_periodic_task': {
-#         'task': 'report.tasks.my_periodic_task',
-#         'schedule': 10.0,  
-#     },
-# }
+CELERY_BEAT_SCHEDULE = {
+    'extract_first_page_every_minute': {
+        'task': 'report.tasks.extract_first_page_task',
+        'schedule': 60.0, 
+    },
+}
+
+CELERY_TIMEZONE = 'UTC'
