@@ -8,7 +8,6 @@ class Tag(models.Model):
         return self.name
     
 class Report(models.Model):
-    # change null=True s at the end
     title = models.CharField(max_length=256, null=True, )        
     article = models.TextField(max_length=4096, null=True,)    
     refrence = models.CharField(max_length=512, null=True, )

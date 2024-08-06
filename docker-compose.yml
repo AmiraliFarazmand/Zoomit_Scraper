@@ -4,7 +4,6 @@ services:
   redis:
     image: redis:7.0.11-alpine
 
-
   selenium-hub:
     image: selenium/hub:4.13.0
     container_name: selenium-hub
@@ -15,8 +14,6 @@ services:
 
   chrome:
     image: selenium/node-chrome:4.13.0
-    # volumes:
-    #   - /dev/shm:/dev/shm
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -25,7 +22,6 @@ services:
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
 
-    
   django:
     container_name: django
     build: 
@@ -51,8 +47,6 @@ services:
     command: celery --app=tech_news worker -l INFO
     volumes:
       - ./db.sqlite3:/usr/src/app/db.sqlite3    
-    #   - ./tech_news:/usr/src/app/tech_news
-    #   - ./report:/usr/src/app/report
     environment:
       - DEBUG=1
       - SECRET_KEY=sjdfiojsdofjijiodsjfioajfio23ojio

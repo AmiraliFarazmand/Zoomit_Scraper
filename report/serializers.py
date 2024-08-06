@@ -14,10 +14,10 @@ class ReportSerializer(serializers.ModelSerializer):
         queryset=Tag.objects.all(),
         slug_field='name'
     )
-
     class Meta:
         model = Report
         fields = ("title", "article", "refrence", "tags", "published_date")
+
 
 class ReportListSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(
@@ -29,9 +29,9 @@ class ReportListSerializer(serializers.ModelSerializer):
         model = Report
         fields = ("id", "title", "refrence", "tags", "published_date")
     
+    
 class TagsReportSerializer(serializers.ModelSerializer):
     reports = ReportSerializer(many=True)
     class Meta:
         model = Tag
         fields = ("name", "reports")
-

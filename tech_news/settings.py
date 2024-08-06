@@ -28,8 +28,13 @@ DEBUG = os.environ.get("DEBUG")
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
 
-# Application definition
+# uncomment following 3 lines for "runserver command" 
+# SECRET_KEY = 'django-insecure-&&dbz!2k*9!c%a!a++44_li_mu5id=i_%2am0q2$!3o#dvgtho'
+# DEBUG = True
+# ALLOWED_HOSTS = []
 
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,11 +92,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
         "OPTIONS": {
-            "timeout": 10,  # 5 seconds is the default, but we can increase it to, e.g., 20s
+            "timeout": 10, 
         },
     }
 }
@@ -141,17 +144,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery configs:
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
-# CELERY_BROKER_URL = 'redis://redis:6379/0'  # Redis as a broker
-# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # Redis as the result backend
-
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'extract_first_page_every_minute': {
         'task': 'report.tasks.extract_first_page_task',
         'schedule': 60.0, 
     },
 }
-
 CELERY_TIMEZONE = 'UTC'
